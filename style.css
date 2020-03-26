@@ -1,0 +1,36 @@
+body {
+    text-align: center;
+}
+
+.svg {
+    display: flex;
+    margin: 1vh auto;
+    background-color: white;
+}
+
+#title {
+    text-align: center;
+    font-size: 40px;
+    font-family: verdana, sans-serif;
+}
+
+.dot {
+    stroke: black;
+}
+
+.cell:hover {
+    border: 1px solid black;
+}
+
+div#tooltip {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    position: absolute;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    width: 150px;
+    padding: 1%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
