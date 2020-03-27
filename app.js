@@ -1,4 +1,5 @@
-function loadJSON(path, success, error) { //generic function to get JSON
+//generic function to get JSON
+function loadJSON(path, success, error) { 
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -16,6 +17,7 @@ function loadJSON(path, success, error) { //generic function to get JSON
   }
   
   loadJSON('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json',
+  //on success, launch dataset function
     dataset,
     function(xhr) {
       console.error(xhr);
@@ -26,10 +28,11 @@ function loadJSON(path, success, error) { //generic function to get JSON
 
 
 function dataset(data) {
+  //store JSON data into dataset variable
     const dataset = data;
 
-    //svg construction
-    // universal measures
+    //===SVG===//
+    // universal measures for shapes inside SVG
 
     var h = 804;
     var w = 1400;
@@ -76,16 +79,19 @@ function dataset(data) {
     .attr("id", "legend")
     .attr("width", 36)
     .attr("height", 20)
+    //associate data with specific colour
     .style("fill", (d) => colorScale(d));
 
-    //x axis based on Scale time on Months
+    //==X-AXIS based on Scale time on Months==
 
     //modify month to read them though the date function, creating date object
+    
+    //convert all years into proper dates
     dataset.monthlyVariance.map((d) => d.year = new Date(d.year, 0, 2));
+
+    //convert number of months into readable numbers for the Date format
     dataset.monthlyVariance.map((d) => d.month = d.month - 1);
     
-    
-    var minDate = d3.min(dataset.monthlyVariance, d => d.year);
     var maxDate = d3.max(dataset.monthlyVariance, d => d.year);
     var yearFormat = d3.timeFormat("%Y");
 
@@ -101,7 +107,7 @@ function dataset(data) {
     .attr("id", "x-axis")
     .call(xAxis);
 
-    //Y-Axis, based on month taken from date
+    //==Y-AXIS, based on month
     //get month name
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     
@@ -115,6 +121,7 @@ function dataset(data) {
     const yAxis = d3.axisLeft()
     .scale(yScale)
     .tickFormat(function(d) {
+      //convert number to name of Month
       return months[d];
     });
 
@@ -130,7 +137,8 @@ function dataset(data) {
     .attr("id", "tooltip")
     .style("visibility", "hidden");
     
-
+ //===GRAPH AREA===
+ 
     svg.append("g")
     .selectAll("rect")
     .data(dataset.monthlyVariance)
@@ -146,7 +154,6 @@ function dataset(data) {
     .attr("data-temp", (d)=> 8.6 + d.variance)
     .style("fill", (d) => colorScale(8.66 + d.variance))
     .on("mouseover", function(d) {
-      console.log(d)
       tooltip.style("visibility", "visible")
       .style("top", yScale(d.month) + 100 + "px")
       .style("left", xScale(d.year) + 50 + "px")
