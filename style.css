@@ -19,7 +19,8 @@ body {
 }
 
 .cell:hover {
-    border: 1px solid black;
+    stroke-width: 1;
+    stroke: black;
 }
 
 div#tooltip {
